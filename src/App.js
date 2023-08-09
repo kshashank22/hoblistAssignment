@@ -1,7 +1,7 @@
-import LoginForm from './components/Login'
+import Counter from './components/Login'
 
 import './App.css'
 
-const App = () => <LoginForm />
+const App = () => <Counter />
 
 export default App

@@ -137,3 +137,10 @@
   line-height: 16px;
   color: #ff0b37;
 }
+
+.navSection {
+  display: flex;
+}
+.input {
+  width: 100%;
+}

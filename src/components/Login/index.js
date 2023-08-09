@@ -1,107 +1,52 @@
-// Write your code here
 import {Component} from 'react'
-import './index.css'
 
-class LoginForm extends Component {
-  state = {
-    username: '',
-    password: '',
-    showSubmitError: false,
-    errorMessage: '',
-  }
+class Counter extends Component {
+  state = {count: 0}
 
-  onChangeUsername = event => {
-    this.setState({username: event.target.value})
-  }
-
-  onChangePassword = event => {
-    this.setState({password: event.target.value})
-  }
-
-  onSubmitSuccess = () => {
-    const {history} = this.props
-
-    history.replace('/')
-  }
-
-  onSubmitFailure = errorMessage => {
-    this.setState({showSubmitError: true, errorMessage})
-  }
-
-  submitForm = async event => {
-    event.preventDefault()
-    const {username, password} = this.state
-    const userDetails = {username, password}
-    const url = 'https://apis.ccbp.in/login'
+  getDetails = async () => {
+    const api =
+      'https://api.themoviedb.org/3/search/movie?api_key=e8ccc676e299173067a80520c1fee405&query=Jack'
     const options = {
-      method: 'POST',
-      body: JSON.stringify(userDetails),
+      method: 'GET',
     }
-    const response = await fetch(url, options)
-    const data = await response.json()
-    if (response.ok === true) {
-      this.onSubmitSuccess()
+    const data = fetch(api, options)
+    const response = await data.json()
+    console.log(response)
+  }
+
+  onDecrease = () => {
+    const {count} = this.state
+    if (count === 0) {
+      this.setState({count: 0})
     } else {
-      this.onSubmitFailure(data.error_msg)
+      this.setState({count: count - 1})
     }
   }
 
-  renderPasswordField = () => {
-    const {password} = this.state
-
-    return (
-      <>
-        <label className="input-label" htmlFor="password">
-          PASSWORD
-        </label>
-        <input
-          type="password"
-          id="password"
-          className="password-input-field"
-          value={password}
-          onChange={this.onChangePassword}
-          placeholder="Password"
-        />
-      </>
-    )
-  }
-
-  renderUsernameField = () => {
-    const {username} = this.state
-
-    return (
-      <>
-        <label className="input-label" htmlFor="username">
-          USERNAME
-        </label>
-        <input
-          type="text"
-          id="username"
-          className="username-input-field"
-          value={username}
-          onChange={this.onChangeUsername}
-          placeholder="Username"
-        />
-      </>
-    )
+  onIncrease = () => {
+    const {count} = this.state
+    this.setState({count: count + 1})
   }
 
   render() {
-    const {showSubmitError, errorMessage} = this.state
+    const {count} = this.state
     return (
-      <div className="login-form-container">
-        <form className="form-container" onSubmit={this.submitForm}>
-          <p className="login-website-logo-desktop-image">Hoblist</p>
-          <div className="input-container">{this.renderUsernameField()}</div>
-          <div className="input-container">{this.renderPasswordField()}</div>
-          <button type="submit" className="login-button">
-            Login
-          </button>
-          {showSubmitError && <p className="error-message">*{errorMessage}</p>}
-        </form>
+      <div>
+        <div className="navSection">
+          <h1>Movie Name</h1>
+          <input type="text" className="input" />
+          <button type="button">Search</button>
+        </div>
+        <h1>{count}</h1>
+        <button type="button" onClick={this.onDecrease}>
+          decrease
+        </button>
+        <button type="button" onClick={this.onIncrease}>
+          Increase
+        </button>
       </div>
     )
   }
 }
 
-export default LoginForm
+export default Counter
